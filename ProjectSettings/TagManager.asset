@@ -3,7 +3,15 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Paddle
+  - Ball
+  - Wall
+  - SpeedUp
+  - PaddleSpeed
+  - PaddleSizeUp
+  - player1Wall
+  - player2Wall
   layers:
   - Default
   - TransparentFX
