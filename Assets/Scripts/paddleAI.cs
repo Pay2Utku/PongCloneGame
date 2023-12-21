@@ -9,7 +9,7 @@ public class paddleAI : MonoBehaviour
     [SerializeField]
     GameObject ball;
     [SerializeField]
-    float speed = 1f; // Base speed for calculations
+    public float speed = 1f; // Base speed for calculations
     public float smoothTime = 0.3f;
     public Vector3 velocity = Vector3.zero;
     // Start is called before the first frame update

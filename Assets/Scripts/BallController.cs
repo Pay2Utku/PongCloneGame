@@ -14,7 +14,7 @@ public class BallController : MonoBehaviour
 
     private Vector3 lastFrameVelocity;
     private Rigidbody2D rb;
-    private float speedUpFactor = 1f;
+    public float speedUpFactor = 1f;
 
     [SerializeField]
     private GameObject lastTouch;
@@ -113,9 +113,9 @@ public class BallController : MonoBehaviour
 
     private IEnumerator SpeedUp()
     {//speedup power up
-        speedUpFactor = 3f;
+        speedUpFactor *= 1.5f;
         yield return new WaitForSeconds(5f);
-        speedUpFactor /= 2f;
+        speedUpFactor /= 1.75f;
     }
     private IEnumerator PaddleSpeed()
     {//paddle speed power up
@@ -127,20 +127,20 @@ public class BallController : MonoBehaviour
 
             if (lastTouch.gameObject.name == "pRed")
             {
-                lastTouch.gameObject.GetComponent<paddleAI>().velocity *= 2f;
+                lastTouch.gameObject.GetComponent<paddleAI>().speed *= 1.5f;
             }
             if (lastTouch.gameObject.name == "pBlue")
             {
-                lastTouch.gameObject.GetComponent<PlayerController>().playerSpeed *= 2f;
+                lastTouch.gameObject.GetComponent<PlayerController>().playerSpeed *= 1.5f;
             }
             yield return new WaitForSeconds(5f);
             if (lastTouch.gameObject.name == "pRed")
             {
-                lastTouch.gameObject.GetComponent<paddleAI>().velocity /= 2f;
+                lastTouch.gameObject.GetComponent<paddleAI>().speed /= 1.75f;
             }
             if (lastTouch.gameObject.name == "pBlue")
             {
-                lastTouch.gameObject.GetComponent<PlayerController>().playerSpeed /= 2f;
+                lastTouch.gameObject.GetComponent<PlayerController>().playerSpeed /= 1.75f;
             }
         }
 
