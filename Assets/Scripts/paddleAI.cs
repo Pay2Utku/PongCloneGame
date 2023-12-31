@@ -26,4 +26,8 @@ public class paddleAI : MonoBehaviour
 
         transform.position = Vector3.SmoothDamp(transform.position, targetPoint,ref velocity,smoothTime, speed);
     }
+    public void SpeedEffect(float speedFact)
+    {
+        speed *= speedFact;
+    }
 }

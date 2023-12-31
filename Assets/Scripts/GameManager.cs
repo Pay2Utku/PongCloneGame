@@ -1,3 +1,5 @@
+using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -18,15 +20,29 @@ public class GameManager : MonoBehaviour
     public GameObject player1;
     public GameObject player2;
     public GameObject ball;
-    private Vector3 lastFrameBallVelocity;
 
     public GameState currentState;
+
+    public static GameManager Instance;
+
+    private void Awake()
+    {
+        // Ensure only one instance of the manager exists
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
-        Pause();
         // Set initial game state
-        currentState = GameState.Paused;
-
+        currentState = GameState.MainMenu;
+        UIController.Instance.MainMenu();
+        Time.timeScale = 0f;
     }
 
     void Update()
@@ -36,9 +52,9 @@ public class GameManager : MonoBehaviour
         {
             switch (currentState)
             {
-                /*case GameState.MainMenu:
-                    StartGame();
-                    break;*/
+                case GameState.MainMenu:
+                    //Game Starts with Buttons.
+                    break;
                 case GameState.InGame:
                     Pause();
                     break;
@@ -56,49 +72,44 @@ public class GameManager : MonoBehaviour
 
 
     }
-
+    public void SelectSolo()
+    {
+        player2.GetComponent<paddleAI>().enabled = true;
+        player2.GetComponent<PlayerController>().enabled = false;
+        Debug.Log("Solo selected");
+        Pause();
+    }
+    public void SelectMultiplayer()
+    {
+        player2.GetComponent<paddleAI>().enabled = false;
+        player2.GetComponent<PlayerController>().enabled = true;
+        Debug.Log("Multiplayer selected");
+        Pause();
+    }
     void Resume()
     {
-        //pauseMenuUI.SetActive(false);
+        UIController.Instance.InGameMenu();
         Time.timeScale = 1f;
         currentState = GameState.InGame;
     }
 
     void Pause()
     {
-        //pauseMenuUI.SetActive(true);
+        UIController.Instance.PauseMenu();
         Time.timeScale = 0f;
         currentState = GameState.Paused;
     }
     public void Score()
     {
-        //Write Activate Scored UI here in future
+        UIController.Instance.ScoredUI();
         currentState = GameState.Scored;
-
-        player1.gameObject.GetComponent<PlayerController>().enabled = false;
-        player1.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(1f, 1f, 0);
-
-        player2.GetComponent<paddleAI>().enabled = false;
-        player2.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(-1f, -1f, 0);
 
         ball.gameObject.SetActive(false);
         ball.GetComponent<BallController>().enabled = false;
-        //Time.timeScale = 0.2f;
     }
     public void NewBall()
     {
-        //Check if there are controllers 
-        player1.gameObject.GetComponent<PlayerController>().enabled = true;
-        player1.transform.position = new Vector3(-2f, 0, 0);
-        player1.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-        player1.transform.localScale = Vector3.one;
-        player1.gameObject.GetComponent<PlayerController>().playerSpeed = 1f;
-
-        player2.GetComponent<paddleAI>().enabled = true;
-        player2.transform.position = new Vector3(2f, 0, 0);
-        player2.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(0, 0, 0);
-        player2.transform.localScale = Vector3.one;
-        player2.gameObject.GetComponent<paddleAI>().speed = 1f;
+        UIController.Instance.InGameMenu();
 
         ball.gameObject.SetActive(true);
         ball.GetComponent<BallController>().enabled = true;
@@ -106,6 +117,7 @@ public class GameManager : MonoBehaviour
         ball.gameObject.GetComponent<Rigidbody2D>().velocity = new Vector3(-1f, 0, 0);
         ball.gameObject.GetComponent<BallController>().speedUpFactor = 1f;
 
+        
         foreach(var i in GameObject.FindGameObjectsWithTag("SpeedUp"))
         {
             Destroy(i.gameObject);
@@ -118,19 +130,23 @@ public class GameManager : MonoBehaviour
         {
             Destroy(i.gameObject);
         }
-        currentState = GameState.Paused;
-        Time.timeScale = 0f;
+
+        Pause();
     }
     public void IncreaseScore(int increment, int playerNumber) // Modified function
     {
         if (playerNumber == 1)
         {
             scorePlayer1 += increment;
+            //UIController.Instance.UpdateScore("player1", scorePlayer1);
+            UIController.Instance.player1ScoreText.text = scorePlayer1.ToString();
             Debug.Log("Score Player 1: " + scorePlayer1);
         }
         else if (playerNumber == 2)
         {
             scorePlayer2 += increment;
+            //UIController.Instance.UpdateScore("player2", scorePlayer2);
+            UIController.Instance.player2ScoreText.text = scorePlayer2.ToString();
             Debug.Log("Score Player 2: " + scorePlayer2);
         }
     }

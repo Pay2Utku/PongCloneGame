@@ -8,20 +8,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     public float playerSpeed = 1f;
 
-    float minX, maxX, minY, maxY;
+    [SerializeField] float minX, maxX, minY, maxY;
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        minX = -2;
-        maxX = -2;
-        minY = -1;
-        maxY = 1;
     }
 
     void FixedUpdate()
     {
-        float moveY = Input.GetAxisRaw("Vertical");
+        float moveY = Input.GetAxisRaw(this.gameObject.name);
 
         Vector2 movement = Vector2.up * moveY * playerSpeed;
         movement.x = 0; // ensures player doesn't move horizontally
@@ -40,5 +36,10 @@ public class PlayerController : MonoBehaviour
         );
 
         transform.position = clampedPosition;
+    }
+
+    public void SpeedEffect(float speedfact)
+    {
+        playerSpeed *= speedfact;
     }
 }

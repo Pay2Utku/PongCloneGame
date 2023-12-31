@@ -7,6 +7,8 @@ public class SpawnController : MonoBehaviour
     [SerializeField]
     List<GameObject> PowerUps = new List<GameObject>();
 
+    [SerializeField] float spawnTime = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,7 +19,7 @@ public class SpawnController : MonoBehaviour
     {//spawn random PowerUp to Random Position
         Vector3 randomPosition = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), 0);
         Instantiate(PowerUps[Random.Range(0,3)], randomPosition, Quaternion.identity);
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(spawnTime);
         StartCoroutine(SpawnPowerUp());
     }
 }
