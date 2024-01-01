@@ -23,9 +23,15 @@ public class BallController : MonoBehaviour
     private GameObject gameManagerObj;
     GameManager gameManager;
 
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip audioClip;
+    [SerializeField] AudioClip boomClip;
+    [SerializeField] ParticleSystem boomEffect;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
         gameManager = gameManagerObj.GetComponent<GameManager>();
         rb.velocity = initialVelocity;
     }
@@ -45,11 +51,17 @@ public class BallController : MonoBehaviour
         Bounce(collision.contacts[0].normal, collision);
         if (collision.gameObject.tag == "player1Wall")
         {
+            Instantiate(boomEffect, this.gameObject.transform.position, Quaternion.identity);
+            audioSource.PlayOneShot(boomClip);
+
             gameManager.IncreaseScore(1, 2);
             gameManager.Score();
         }
         else if (collision.gameObject.tag == "player2Wall")
         {
+            Instantiate(boomEffect, this.gameObject.transform.position, Quaternion.identity);
+            audioSource.PlayOneShot(boomClip);
+
             gameManager.IncreaseScore(1, 1);
             gameManager.Score();
         }
@@ -72,6 +84,9 @@ public class BallController : MonoBehaviour
             CollectibleManager.Instance.LastTouch(collision.gameObject); //last touch paddle
         }
         rb.velocity = direction * Mathf.Max(speed, minVelocity);
+
+        //audio
+        audioSource.PlayOneShot(audioClip);
     }
     
     
