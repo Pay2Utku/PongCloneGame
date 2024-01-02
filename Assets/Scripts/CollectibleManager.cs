@@ -38,11 +38,11 @@ public class CollectibleManager : MonoBehaviour
     private IEnumerator BallSpeedUpEffect()
     {
         ballController.speedUpFactor *= 1.5f;
-        yield return new WaitForSeconds(5.0f);
-        ballController.speedUpFactor /= 1.2f;
-        if (ballController.speedUpFactor < 1.2f)
+        yield return new WaitForSeconds(2.0f);
+        ballController.speedUpFactor /= 1.5f;
+        if (ballController.speedUpFactor < 1.5f)
         {
-            ballController.speedUpFactor = 1.2f;
+            ballController.speedUpFactor = 1.5f;
         }
     }
     public void CollectPaddleSpeedUp()
@@ -64,16 +64,16 @@ public class CollectibleManager : MonoBehaviour
             {
                 lastTouch.gameObject?.GetComponent<paddleAI>().SpeedEffect(1.5f);
             }
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(2.0f);
             //lastTouch.gameObject?.GetComponent<PlayerController>().SpeedEffect(0.8f);
             if (lastTouch.gameObject?.GetComponent<PlayerController>().isActiveAndEnabled == true)
             {
-                lastTouch.gameObject?.GetComponent<PlayerController>().SpeedEffect(0.8f);
+                lastTouch.gameObject?.GetComponent<PlayerController>().SpeedEffect(0.66f);
             }
             //lastTouch.gameObject?.GetComponent<paddleAI>().SpeedEffect(0.8f);
             if (lastTouch.gameObject?.GetComponent<paddleAI>().isActiveAndEnabled == true)
             {
-                lastTouch.gameObject?.GetComponent<paddleAI>().SpeedEffect(0.8f);
+                lastTouch.gameObject?.GetComponent<paddleAI>().SpeedEffect(0.66f);
             }
         }
     }

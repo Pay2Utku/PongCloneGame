@@ -3246,7 +3246,7 @@ MonoBehaviour:
   minVelocity: 1
   clampSpeed: 1
   speedUpFactor: 1
-  lastTouch: {fileID: 0}
+  lastTouch: {fileID: 2047150134}
   gameManagerObj: {fileID: 236190598}
   audioSource: {fileID: 1571418101}
   audioClip: {fileID: 8300000, guid: ba04b2688ab1aac49b450e3d4e333f72, type: 3}
